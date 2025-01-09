@@ -1,0 +1,13 @@
+{
+  "name": "sum-to-n-testing",
+  "version": "1.0.0",
+  "description": "Testing different implementations of sum to n",
+  "main": "solution.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+} 

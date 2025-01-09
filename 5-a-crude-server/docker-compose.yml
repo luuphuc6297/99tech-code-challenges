@@ -1,0 +1,68 @@
+services:
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: crude-server
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                    cpus: '0.5'
+        ports:
+            - '3000:3000'
+        environment:
+            - NODE_ENV=development
+            - PORT=3000
+            - MONGODB_URI=mongodb://mongodb:27017/crude-server-db
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+        command: >
+            sh -c "
+                echo 'Waiting for MongoDB to be ready...' &&
+                sleep 5 &&
+                echo 'Starting application...' &&
+                pnpm start
+            "
+        networks:
+            - crude-network
+
+    mongodb:
+        image: mongo:latest
+        container_name: crude-mongodb
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                    cpus: '0.5'
+        ports:
+            - '27017:27017'
+        volumes:
+            - mongodb_data:/data/db
+        networks:
+            - crude-network
+
+    redis:
+        image: redis:alpine
+        container_name: crude-redis
+        deploy:
+        ports:
+            - '6379:6379'
+        volumes:
+            - redis_data:/data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+        networks:
+            - crude-network
+
+networks:
+    crude-network:
+        driver: bridge
+
+volumes:
+    mongodb_data:
+    redis_data:
