@@ -17,6 +17,7 @@ import {
     TokenName,
     TokenBalance as StyledTokenBalance,
 } from '@/presentation/styles/components/TokenList.styles'
+import { useDebounce } from '@hooks/useDebounce'
 
 interface TokenListProps {
     tokens: Token[]
@@ -28,9 +29,10 @@ interface TokenListProps {
 export function TokenList({ tokens, balances, selectedToken, onSelect }: TokenListProps) {
     const [search, setSearch] = useState('')
     const { isConnected } = useWeb3()
+    const debouncedSearch = useDebounce(search, 300)
 
     const filteredTokens = tokens.filter((token) => {
-        const searchLower = search.toLowerCase()
+        const searchLower = debouncedSearch.toLowerCase()
         return (
             token.symbol.toLowerCase().includes(searchLower) ||
             token.name.toLowerCase().includes(searchLower)

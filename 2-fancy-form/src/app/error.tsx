@@ -28,13 +28,13 @@ export default function Error({
             }}
         >
             <Typography variant="h4" gutterBottom>
-                Đã xảy ra lỗi
+                Error
             </Typography>
             <Typography color="text.secondary" mb={4}>
-                {error.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.'}
+                {error.message}
             </Typography>
             <Button variant="contained" onClick={reset}>
-                Thử lại
+                Retry
             </Button>
         </Box>
     )

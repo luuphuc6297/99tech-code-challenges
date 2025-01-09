@@ -1,10 +1,5 @@
 import { Token } from './Token'
 
-export interface SwapFee {
-    amount: string
-    token: Token
-}
-
 export interface SwapQuote {
     fromToken: Token
     toToken: Token

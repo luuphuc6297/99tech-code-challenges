@@ -24,12 +24,6 @@ export interface TokenList {
     logoURI?: string
 }
 
-export interface TokenPrice {
-    currency: string
-    price: number
-    date: string
-}
-
 export interface TokenBalance {
     balance: string
     balanceUsd: number
