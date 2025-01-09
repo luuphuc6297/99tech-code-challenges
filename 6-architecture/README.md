@@ -194,6 +194,7 @@ The application follows Clean Architecture principles with layers:
 
 
 ## Folder Structure
+```
 src/
 ├── core/                           # Domain layer
 │   ├── entities/                   # Business objects
@@ -246,8 +247,7 @@ src/
     ├── database/
     ├── websocket/
     └── redis/
-
-
+```
 This structure follows several key organizational principles:
 
 1. **Modular Architecture**
