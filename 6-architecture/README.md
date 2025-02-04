@@ -1,4 +1,4 @@
-# Quiz Application Documentation
+# Application Documentation
 
 ## Table of Contents
 - [Tech Stack](#tech-stack)
@@ -21,7 +21,7 @@
 ### Database & Caching
 - **MongoDB**: Primary database for:
   - User management
-  - Quiz data storage
+  - Data storage
   - Session management
   - Leaderboard persistence
 
@@ -34,7 +34,7 @@
 
 ### Real-time Communication
 - **Socket.IO**: Real-time bidirectional communication:
-  - Quiz session management
+  - Session management
   - Live participant updates
   - Real-time scoring
   - Instant leaderboard updates
@@ -80,19 +80,19 @@ The application follows Clean Architecture principles with layers:
 ### Design Patterns
 
 1. **Observer Pattern**
-   - Implementation: `QuizEventObserver`
-   - Purpose: Handle quiz events and notifications
+   - Implementation: `EventObserver`
+   - Purpose: Handle  events and notifications
    - Components:
      - `LeaderboardObserver`
      - `RedisObserver`
 
 2. **Factory Pattern**
-   - Implementation: `QuizSessionFactory`
-   - Purpose: Create different types of quiz sessions
+   - Implementation: `SessionFactory`
+   - Purpose: Create different types of  sessions
    - Variants:
-     - `DefaultQuizSessionFactory`
-     - `CompetitiveQuizSessionFactory`
-     - `PracticeQuizSessionFactory`
+     - `DefaultSessionFactory`
+     - `CompetitiveSessionFactory`
+     - `PracticeSessionFactory`
 
 3. **Strategy Pattern**
    - Implementation: `ScoringStrategy`
@@ -102,11 +102,11 @@ The application follows Clean Architecture principles with layers:
      - `BonusPointsScoringStrategy`
 
 4. **Command Pattern**
-   - Implementation: Quiz Commands
-   - Purpose: Encapsulate quiz operations
+   - Implementation:  Commands
+   - Purpose: Encapsulate  operations
    - Examples:
-     - `StartQuizSessionCommand`
-     - `JoinQuizCommand`
+     - `StartSessionCommand`
+     - `JoinCommand`
      - `StartQuestionCommand`
 
 5. **Singleton Pattern**
@@ -119,8 +119,8 @@ The application follows Clean Architecture principles with layers:
 ## System Components
 
 ### WebSocket Gateway
-- **Implementation**: `QuizGateway`
-- **Purpose**: Handle real-time quiz interactions
+- **Implementation**: `Gateway`
+- **Purpose**: Handle real-time  interactions
 - **Features**:
   - Session management
   - Real-time updates
@@ -173,7 +173,7 @@ The application follows Clean Architecture principles with layers:
 2. **Server Validation**
    ```typescript
    @WebSocketGateway()
-   export class QuizGateway {
+   export class Gateway {
      async handleConnection(client: Socket) {
        const token = client.handshake.auth.token;
        // Validate JWT
@@ -198,21 +198,21 @@ The application follows Clean Architecture principles with layers:
 src/
 ├── core/                           # Domain layer
 │   ├── entities/                   # Business objects
-│   │   ├── Quiz.ts
+│   │   ├── .ts
 │   │   ├── Question.ts
 │   │   ├── User.ts
 │   │   └── Leaderboard.ts
 │   ├── repositories/               # Repository interfaces
-│   │   ├── IQuizRepository.ts
+│   │   ├── IRepository.ts
 │   │   ├── IUserRepository.ts
 │   │   └── ILeaderboardRepository.ts
 │   └── interfaces/                 # Core business interfaces
-│       ├── IQuizService.ts
+│       ├── IService.ts
 │       └── IAuthService.ts
 │
 ├── data/                          # Data layer
 │   ├── repositories/              # Repository implementations
-│   │   ├── MongoQuizRepository.ts
+│   │   ├── MongoRepository.ts
 │   │   ├── MongoUserRepository.ts
 │   │   └── MongoLeaderboardRepository.ts
 │   ├── services/                  # External services
@@ -229,10 +229,10 @@ src/
 │
 ├── application/                   # Application layer
 │   ├── commands/                  # Command handlers
-│   │   ├── quiz/
+│   │   ├── /
 │   │   └── auth/
 │   ├── queries/                   # Query handlers
-│   │   ├── quiz/
+│   │   ├── /
 │   │   └── leaderboard/
 │   └── events/                    # Domain events
 │       └── handlers/
@@ -256,7 +256,7 @@ This structure follows several key organizational principles:
    - Easy to maintain and scale
 
 2. **Feature-based Organization**
-   - Modules are organized by feature (auth, quiz, user, etc.)
+   - Modules are organized by feature (auth, , user, etc.)
    - Each feature has its own set of controllers, services, and DTOs
    - Makes it easy to locate and modify feature-specific code
 
@@ -300,7 +300,7 @@ The system uses Redis Pub/Sub to enable communication between multiple server in
 ### How It Works
 
 #### Publishing Events
-- When an event occurs on a server instance (e.g., quiz answer submission)
+- When an event occurs on a server instance (e.g.,  answer submission)
 - Server publishes this event to specific Redis channels
 - Each event contains metadata like timestamp, server ID, and event data
 
@@ -312,7 +312,7 @@ The system uses Redis Pub/Sub to enable communication between multiple server in
 ### State Synchronization
 - Maintains consistent state across all server instances
 - Synchronizes:
-  - Quiz states
+  -  states
   - User sessions
   - Leaderboard updates
   - Active connections
